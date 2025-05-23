@@ -8,41 +8,30 @@
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
       font-family: sans-serif;
       text-align: center;
-      position: relative;
       min-height: 100vh;
+      background: url('./love2.png') no-repeat center center/cover;
+      position: relative;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
       align-items: center;
       padding: 20px;
     }
 
-    /* Background with overlay */
-    body::before {
-      content: "";
-      background: url('./love2.png') no-repeat center center/cover;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-    }
-
     body::after {
       content: "";
-      position: fixed;
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.5); /* overlay */
+      background: rgba(0, 0, 0, 0.5);
       z-index: -1;
     }
 
@@ -52,23 +41,20 @@
     }
 
     #puzzle {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      gap: 2px;
+      display: flex;
+      flex-wrap: wrap;
       width: 90vw;
       max-width: 300px;
       aspect-ratio: 1 / 1;
       border: 3px solid #fff;
-      background-color: #fff;
     }
 
     .tile {
-      width: 100%;
-      height: 100%;
+      width: calc(100% / 3);
+      height: calc(100% / 3);
       background-image: url('./love.jpg');
       background-size: 300px 300px;
-      cursor: pointer;
+      background-repeat: no-repeat;
       border: none;
     }
 
@@ -82,15 +68,10 @@
       padding: 10px 20px;
       margin: 10px;
       font-size: 16px;
-      cursor: pointer;
       background: #fff;
       border: none;
       border-radius: 8px;
-      transition: background 0.3s ease;
-    }
-
-    button:hover {
-      background: #ffcccc;
+      cursor: pointer;
     }
 
     #heart {
@@ -118,7 +99,6 @@
       font-size: 20px;
       font-weight: bold;
       font-family: 'Noto Serif Bengali', serif;
-      padding: 10px;
     }
 
     @media (max-width: 480px) {
@@ -151,13 +131,11 @@
   </div>
 
   <div id="heart">❤️</div>
-
   <audio id="successAudio" src="love.mp3" preload="auto"></audio>
 
   <script>
     const puzzle = document.getElementById('puzzle');
     let positions = [...Array(9).keys()];
-
     positions.sort(() => Math.random() - 0.5);
 
     function createTiles() {
@@ -217,7 +195,6 @@
       noMessage.style.display = 'block';
     }
 
-    // Pause audio if user switches tab or minimizes window
     document.addEventListener("visibilitychange", () => {
       const audio = document.getElementById('successAudio');
       if (document.hidden && !audio.paused) {
@@ -227,6 +204,5 @@
 
     createTiles();
   </script>
-
 </body>
 </html>
